@@ -1,0 +1,1 @@
+## Sección de registro de avances para esta sección
