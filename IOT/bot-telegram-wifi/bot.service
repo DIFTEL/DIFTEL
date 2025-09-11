@@ -1,0 +1,15 @@
+[Unit]
+Description=Bot de Telegram para Raspberry Pi
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=[nombre de usuario]
+WorkingDirectory=/home/[nombre de usuario]/telegram_bot_ip
+ExecStart=/home/[nombre de usuario]/telegram_bot_ip/venv/bin/python3 /home/[nombre de usuario]/telegram_bot_ip/bot.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
