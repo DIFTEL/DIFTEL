@@ -1,0 +1,147 @@
+#Mini guía: Bot Telegram IP WiFi en Windows
+
+#1️.- Crear carpeta del proyecto
+#En tu escritorio o donde quieras, crea una carpeta:
+
+bot_telegram
+
+#Dentro estará tu entorno virtual (venv) y tu script bot_ip_wifi.py.
+
+#2.- Crear entorno virtual (venv)
+#Abre PowerShell y navega a la carpeta:
+
+cd "C:\Users\Constanza Acosta\Desktop\proyecto_ads_git\bot_telegram"
+
+
+#Crea el venv:
+
+python -m venv venv
+
+
+#Verifica que exista la carpeta venv\Scripts\python.exe:
+
+dir venv\Scripts\python.exe
+
+#3.-Instalar librerías necesarias
+#Activa el venv usando el .bat (más seguro en Windows):
+
+venv\Scripts\activate.bat
+
+
+#Instala telepot (y cualquier otra librería que necesites):
+
+pip install telepot
+
+
+#Verifica las librerías instaladas:
+
+pip list
+
+#4.- Crear el archivo del bot
+#En la carpeta bot_telegram, crea un archivo llamado:
+
+bot_ip_wifi.py
+
+#Copia este código (reemplaza TU_TOKEN_AQUI por el token de tu bot de Telegram):
+
+import telepot
+import socket
+
+TOKEN = "TU_TOKEN_AQUI"
+
+def get_ip():
+    try:
+        hostname = socket.gethostname()
+        ip_local = socket.gethostbyname(hostname)
+        return f"🌐 IP local del equipo: {ip_local}"
+    except Exception as e:
+        return f"Error al obtener IP: {e}"
+
+def handle(msg):
+    content_type, chat_type, chat_id = telepot.glance(msg)
+    if content_type == 'text':
+        if msg['text'] == '/get_ip':
+            bot.sendMessage(chat_id, get_ip())
+        else:
+            bot.sendMessage(chat_id, "Usa el comando /get_ip para obtener la IP del equipo.")
+
+bot = telepot.Bot(TOKEN)
+bot.message_loop(handle)
+
+print("Bot activo. Esperando comandos...")
+
+import time
+while True:
+    time.sleep(10)
+
+
+#Guarda el archivo.
+#Verifica con PowerShell:
+
+dir
+
+#Debes ver: bot_ip_wifi.py y venv.
+
+#5.-Probar el bot manualmente
+#Asegúrate de estar en la carpeta del proyecto.
+#Ejecuta el bot usando Python del venv:
+
+venv\Scripts\python.exe bot_ip_wifi.py
+
+#Deberías ver:
+
+Bot activo. Esperando comandos...
+
+
+#En Telegram, envía:
+
+/get_ip
+
+
+Debes recibir la IP de tu computadora.
+
+#6.- Crear un .bat para ejecutar el bot fácilmente
+#En la misma carpeta, crea un archivo llamado iniciar_bot.bat.
+
+#Contenido:
+
+@echo off
+call venv\Scripts\activate.bat
+python bot_ip_wifi.py
+pause
+
+
+Doble clic en iniciar_bot.bat → el bot se inicia sin abrir PowerShell manualmente.
+
+#7.- Ejecutar el bot automáticamente al iniciar Windows
+#7.1.- Abre Programador de Tareas → Crear tarea básica.
+
+	#Nombre: Telegram Bot IP WiFi.
+	#Desencadenador: Al iniciar sesión o Al iniciar el equipo.
+	#Acción: Iniciar un programa.
+	#Programa/script: ruta al .bat que creaste:
+
+C:\Users\Constanza Acosta\Desktop\proyecto_ads_git\bot_telegram\iniciar_bot.bat
+
+#Carpeta de inicio:
+
+C:\Users\Constanza Acosta\Desktop\proyecto_ads_git\bot_telegram
+
+#Guardar. ✅
+#Ahora tu bot se iniciará automáticamente cada vez que inicies Windows.
+
+🔹 Notas importantes
+
+No necesitas systemd en Windows. El .bat + Programador de Tareas reemplaza esa funcionalidad.
+
+Siempre ejecuta tu bot usando Python dentro del venv para evitar problemas de librerías.
+
+Puedes mantener la ventana abierta para ver los logs, o incluso redirigir la salida a un archivo .log si quieres.
+
+
+#INSTALAR LA LIBRERIA TELEPORT
+venv\Scripts\activate.bat
+pip install telepot
+
+
+#USAR UN ARCHIVO JSON PARA MODIFICAR EL TOKEN DE TELEGRAM E IMPORTAR EL JSON EN PYTHON
